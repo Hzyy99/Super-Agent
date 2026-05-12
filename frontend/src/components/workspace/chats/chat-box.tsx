@@ -10,7 +10,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { env } from "@/env";
 import { cn } from "@/lib/utils";
 
 import {
@@ -33,7 +32,6 @@ const ChatBox: React.FC<{ children: React.ReactNode; threadId: string }> = ({
   const layoutRef = useRef<GroupImperativeHandle>(null);
 
   const {
-    artifacts,
     open: artifactsOpen,
     setOpen: setArtifactsOpen,
     setArtifacts,
@@ -60,14 +58,9 @@ const ChatBox: React.FC<{ children: React.ReactNode; threadId: string }> = ({
     //   deselect();
     // }
 
-    if (
-      env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY === "true" &&
-      autoSelectFirstArtifact
-    ) {
-      if (thread?.values?.artifacts?.length > 0) {
-        setAutoSelectFirstArtifact(false);
-        selectArtifact(thread.values.artifacts[0]!);
-      }
+    if (autoSelectFirstArtifact && thread?.values?.artifacts?.length > 0) {
+      setAutoSelectFirstArtifact(false);
+      selectArtifact(thread.values.artifacts[0]!);
     }
   }, [
     threadId,
@@ -80,11 +73,8 @@ const ChatBox: React.FC<{ children: React.ReactNode; threadId: string }> = ({
   ]);
 
   const artifactPanelOpen = useMemo(() => {
-    if (env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY === "true") {
-      return artifactsOpen && artifacts?.length > 0;
-    }
     return artifactsOpen;
-  }, [artifactsOpen, artifacts]);
+  }, [artifactsOpen]);
 
   const resizableIdBase = useMemo(() => {
     return pathname.replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "");

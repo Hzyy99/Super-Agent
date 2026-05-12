@@ -1036,7 +1036,7 @@ run_events:
 # Optional pre-execution authorization for tool calls.
 # When enabled, every tool call passes through the configured provider
 # before execution. Three options: built-in allowlist, OAP policy provider,
-# or custom provider. See backend/docs/GUARDRAILS.md for full documentation.
+# or custom provider.
 #
 # Providers are loaded by class path via resolve_variable (same as models/tools).
 

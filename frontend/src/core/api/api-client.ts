@@ -31,8 +31,8 @@ function injectCsrfHeader(_url: URL, init: RequestInit): RequestInit {
   return { ...init, headers };
 }
 
-function createCompatibleClient(isMock?: boolean): LangGraphClient {
-  const apiUrl = getLangGraphBaseURL(isMock);
+function createCompatibleClient(): LangGraphClient {
+  const apiUrl = getLangGraphBaseURL();
   console.log(`Creating API client with base URL: ${apiUrl}`);
   const client = new LangGraphClient({
     apiUrl,
@@ -59,12 +59,12 @@ function createCompatibleClient(isMock?: boolean): LangGraphClient {
 }
 
 const _clients = new Map<string, LangGraphClient>();
-export function getAPIClient(isMock?: boolean): LangGraphClient {
-  const cacheKey = isMock ? "mock" : "default";
+export function getAPIClient(): LangGraphClient {
+  const cacheKey = "default";
   let client = _clients.get(cacheKey);
 
   if (!client) {
-    client = createCompatibleClient(isMock);
+    client = createCompatibleClient();
     _clients.set(cacheKey, client);
   }
 

@@ -35,7 +35,6 @@ export const zhCN: Translations = {
     artifacts: "文件",
     public: "公共",
     custom: "自定义",
-    notAvailableInDemoMode: "在演示模式下不可用",
     loading: "加载中...",
     version: "版本",
     lastUpdated: "最后更新",
@@ -50,12 +49,6 @@ export const zhCN: Translations = {
     exportAsMarkdown: "导出为 Markdown",
     exportAsJSON: "导出为 JSON",
     exportSuccess: "对话已导出",
-  },
-
-  // Home
-  home: {
-    docs: "文档",
-    blog: "博客",
   },
 
   // Welcome
@@ -165,7 +158,6 @@ export const zhCN: Translations = {
     newChat: "新对话",
     chats: "对话",
     recentChats: "最近的对话",
-    demoChats: "演示对话",
     agents: "智能体",
   },
 

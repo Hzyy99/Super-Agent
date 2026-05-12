@@ -55,7 +55,6 @@ import {
 } from "@/core/threads/hooks";
 import type { AgentThread, AgentThreadState } from "@/core/threads/types";
 import { pathOfThread, titleOfThread } from "@/core/threads/utils";
-import { env } from "@/env";
 import { isIMEComposing } from "@/lib/ime";
 
 export function RecentChatList() {
@@ -117,14 +116,7 @@ export function RecentChatList() {
 
   const handleShare = useCallback(
     async (thread: AgentThread) => {
-      // Always use Vercel URL for sharing so others can access
-      const VERCEL_URL = "https://deer-flow-v2.vercel.app";
-      const isLocalhost =
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1";
-      // On localhost: use Vercel URL; On production: use current origin
-      const baseUrl = isLocalhost ? VERCEL_URL : window.location.origin;
-      const shareUrl = `${baseUrl}${pathOfThread(thread)}`;
+      const shareUrl = `${window.location.origin}${pathOfThread(thread)}`;
       try {
         await navigator.clipboard.writeText(shareUrl);
         toast.success(t.clipboard.linkCopied);
@@ -166,11 +158,7 @@ export function RecentChatList() {
   return (
     <>
       <SidebarGroup>
-        <SidebarGroupLabel>
-          {env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY !== "true"
-            ? t.sidebar.recentChats
-            : t.sidebar.demoChats}
-        </SidebarGroupLabel>
+        <SidebarGroupLabel>{t.sidebar.recentChats}</SidebarGroupLabel>
         <SidebarGroupContent className="group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0">
           <SidebarMenu>
             <div className="flex w-full flex-col gap-1">
@@ -189,8 +177,7 @@ export function RecentChatList() {
                         >
                           {titleOfThread(thread)}
                         </Link>
-                        {env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY !== "true" && (
-                          <DropdownMenu>
+                        <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <SidebarMenuAction
                                 showOnHover
@@ -254,8 +241,7 @@ export function RecentChatList() {
                                 <span>{t.common.delete}</span>
                               </DropdownMenuItem>
                             </DropdownMenuContent>
-                          </DropdownMenu>
-                        )}
+                        </DropdownMenu>
                       </div>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

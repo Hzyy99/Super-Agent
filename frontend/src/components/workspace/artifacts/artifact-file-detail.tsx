@@ -35,7 +35,6 @@ import { useI18n } from "@/core/i18n/hooks";
 import { installSkill } from "@/core/skills/api";
 import { streamdownPlugins } from "@/core/streamdown";
 import { checkCodeFile, getFileName } from "@/core/utils/files";
-import { env } from "@/env";
 import { cn } from "@/lib/utils";
 
 import { ArtifactLink } from "../citations/artifact-link";
@@ -180,8 +179,7 @@ export function ArtifactFileDetail({
                   label={t.common.install}
                   tooltip={t.common.install}
                   disabled={
-                    isInstalling ||
-                    env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY === "true"
+                    isInstalling
                   }
                   onClick={handleInstallSkill}
                 />

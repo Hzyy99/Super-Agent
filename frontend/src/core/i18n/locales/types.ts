@@ -24,7 +24,6 @@ export interface Translations {
     artifacts: string;
     public: string;
     custom: string;
-    notAvailableInDemoMode: string;
     loading: string;
     version: string;
     lastUpdated: string;
@@ -39,11 +38,6 @@ export interface Translations {
     exportAsMarkdown: string;
     exportAsJSON: string;
     exportSuccess: string;
-  };
-
-  home: {
-    docs: string;
-    blog: string;
   };
 
   // Welcome
@@ -115,7 +109,6 @@ export interface Translations {
     recentChats: string;
     newChat: string;
     chats: string;
-    demoChats: string;
     agents: string;
   };
 

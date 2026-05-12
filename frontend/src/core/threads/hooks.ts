@@ -184,7 +184,7 @@ export function useThreadStream({
   const updateSubtask = useUpdateSubtask();
 
   const thread = useStream<AgentThreadState>({
-    client: getAPIClient(isMock),
+    client: getAPIClient(),
     assistantId: "lead_agent",
     threadId: onStreamThreadId,
     reconnectOnMount: true,

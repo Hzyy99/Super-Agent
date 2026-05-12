@@ -1,7 +1,6 @@
-"""Cross-user isolation tests — non-negotiable safety gate.
+"""Cross-user isolation tests - non-negotiable safety gate.
 
-Mirrors TC-API-17..20 from backend/docs/AUTH_TEST_PLAN.md. A failure
-here means users can see each other's data; PR must not merge.
+A failure here means users can see each other's data; the change must not ship.
 
 Architecture note
 -----------------
@@ -16,7 +15,7 @@ The HTTP layer is covered by test_auth_middleware.py, which proves
 that a request cookie reaches the ``set_current_user`` call. Together
 the two suites prove the full chain:
 
-  cookie → middleware → contextvar → repository → isolation
+  cookie -> middleware -> contextvar -> repository -> isolation
 
 Every test in this file opts out of the autouse contextvar fixture
 (``@pytest.mark.no_auto_user``) so it can set the contextvar to the

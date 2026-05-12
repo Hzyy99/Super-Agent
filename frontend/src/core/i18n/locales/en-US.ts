@@ -35,7 +35,6 @@ export const enUS: Translations = {
     artifacts: "Artifacts",
     public: "Public",
     custom: "Custom",
-    notAvailableInDemoMode: "Not available in demo mode",
     loading: "Loading...",
     version: "Version",
     lastUpdated: "Last updated",
@@ -50,12 +49,6 @@ export const enUS: Translations = {
     exportAsMarkdown: "Export as Markdown",
     exportAsJSON: "Export as JSON",
     exportSuccess: "Conversation exported",
-  },
-
-  // Home
-  home: {
-    docs: "Docs",
-    blog: "Blog",
   },
 
   // Welcome
@@ -171,7 +164,6 @@ export const enUS: Translations = {
     newChat: "New chat",
     chats: "Chats",
     recentChats: "Recent chats",
-    demoChats: "Demo chats",
     agents: "Agents",
   },
 
