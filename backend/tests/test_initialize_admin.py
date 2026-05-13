@@ -23,7 +23,7 @@ def _setup_auth(tmp_path):
     """Fresh SQLite engine + auth config per test."""
     from app.gateway import deps
     from app.gateway.routers.auth import _SETUP_STATUS_COOLDOWN
-    from deerflow.persistence.engine import close_engine, init_engine
+    from harness.persistence.engine import close_engine, init_engine
 
     set_auth_config(AuthConfig(jwt_secret=_TEST_SECRET))
     url = f"sqlite+aiosqlite:///{tmp_path}/init_admin.db"

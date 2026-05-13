@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from deerflow.config.paths import Paths
+from harness.config.paths import Paths
 
 
 @pytest.fixture

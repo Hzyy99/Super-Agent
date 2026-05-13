@@ -2,7 +2,7 @@
 
 from unittest.mock import MagicMock, patch
 
-from deerflow.agents.memory.queue import ConversationContext, MemoryUpdateQueue
+from harness.agents.memory.queue import ConversationContext, MemoryUpdateQueue
 
 
 def test_conversation_context_has_user_id():
@@ -31,7 +31,7 @@ def test_queue_process_passes_user_id_to_updater():
 
     mock_updater = MagicMock()
     mock_updater.update_memory.return_value = True
-    with patch("deerflow.agents.memory.updater.MemoryUpdater", return_value=mock_updater):
+    with patch("harness.agents.memory.updater.MemoryUpdater", return_value=mock_updater):
         q._process_queue()
 
     mock_updater.update_memory.assert_called_once()

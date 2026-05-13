@@ -4,7 +4,7 @@ Combines the existing thread-local filesystem cleanup with LangGraph
 Platform-compatible thread management backed by the checkpointer.
 
 Channel values returned in state responses are serialized through
-:func:`deerflow.runtime.serialization.serialize_channel_values` to
+:func:`harness.runtime.serialization.serialize_channel_values` to
 ensure LangChain message objects are converted to JSON-safe dicts
 matching the LangGraph Platform wire format expected by the
 ``useStream`` React hook.
@@ -23,10 +23,10 @@ from pydantic import BaseModel, Field, field_validator
 from app.gateway.authz import require_permission
 from app.gateway.deps import get_checkpointer
 from app.gateway.utils import sanitize_log_param
-from deerflow.config.paths import Paths, get_paths
-from deerflow.runtime import serialize_channel_values
-from deerflow.runtime.user_context import get_effective_user_id
-from deerflow.utils.time import coerce_iso, now_iso
+from harness.config.paths import Paths, get_paths
+from harness.runtime import serialize_channel_values
+from harness.runtime.user_context import get_effective_user_id
+from harness.utils.time import coerce_iso, now_iso
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/threads", tags=["threads"])
@@ -555,7 +555,7 @@ async def get_thread_history(thread_id: str, body: ThreadHistoryRequest, request
 
     Messages are read from the checkpointer's channel values (the
     authoritative source) and serialized via
-    :func:`~deerflow.runtime.serialization.serialize_channel_values`.
+    :func:`~harness.runtime.serialization.serialize_channel_values`.
     Only the latest (first) checkpoint carries the ``messages`` key to
     avoid duplicating them across every entry.
     """

@@ -10,7 +10,7 @@ import argparse
 import logging
 import shutil
 
-from deerflow.config.paths import Paths, get_paths
+from harness.config.paths import Paths, get_paths
 
 logger = logging.getLogger(__name__)
 

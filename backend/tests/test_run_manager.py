@@ -4,7 +4,7 @@ import re
 
 import pytest
 
-from deerflow.runtime import RunManager, RunStatus
+from harness.runtime import RunManager, RunStatus
 
 ISO_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}")
 
@@ -89,7 +89,7 @@ async def test_list_by_thread(manager: RunManager):
 @pytest.mark.anyio
 async def test_list_by_thread_is_stable_when_timestamps_tie(manager: RunManager, monkeypatch: pytest.MonkeyPatch):
     """Ordering should be stable (insertion order) even when timestamps tie."""
-    monkeypatch.setattr("deerflow.runtime.runs.manager._now_iso", lambda: "2026-01-01T00:00:00+00:00")
+    monkeypatch.setattr("harness.runtime.runs.manager._now_iso", lambda: "2026-01-01T00:00:00+00:00")
 
     r1 = await manager.create("thread-1")
     r2 = await manager.create("thread-1")

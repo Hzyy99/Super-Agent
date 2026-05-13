@@ -1,6 +1,6 @@
 """Boundary check: harness layer must not import from app layer.
 
-The deerflow-harness package (packages/harness/deerflow/) is a standalone,
+The harness package (harness/) is a standalone,
 publishable agent framework. It must never depend on the app layer (app/).
 
 This test scans all Python files in the harness package and fails if any
@@ -10,7 +10,7 @@ This test scans all Python files in the harness package and fails if any
 import ast
 from pathlib import Path
 
-HARNESS_ROOT = Path(__file__).parent.parent / "packages" / "harness" / "deerflow"
+HARNESS_ROOT = Path(__file__).parent.parent / "harness"
 
 BANNED_PREFIXES = ("app.",)
 
@@ -40,7 +40,7 @@ def test_harness_does_not_import_app():
     for py_file in sorted(HARNESS_ROOT.rglob("*.py")):
         for lineno, module in _collect_imports(py_file):
             if any(module == prefix.rstrip(".") or module.startswith(prefix) for prefix in BANNED_PREFIXES):
-                rel = py_file.relative_to(HARNESS_ROOT.parent.parent.parent)
+                rel = py_file.relative_to(HARNESS_ROOT.parent)
                 violations.append(f"  {rel}:{lineno}  imports {module}")
 
     assert not violations, "Harness layer must not import from app layer:\n" + "\n".join(violations)

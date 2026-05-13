@@ -7,10 +7,10 @@ from unittest.mock import MagicMock
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage, RemoveMessage, ToolMessage
 
-from deerflow.agents.memory.summarization_hook import memory_flush_hook
-from deerflow.agents.middlewares.dynamic_context_middleware import _DYNAMIC_CONTEXT_REMINDER_KEY, DynamicContextMiddleware
-from deerflow.agents.middlewares.summarization_middleware import DeerFlowSummarizationMiddleware, SummarizationEvent
-from deerflow.config.memory_config import MemoryConfig
+from harness.agents.memory.summarization_hook import memory_flush_hook
+from harness.agents.middlewares.dynamic_context_middleware import _DYNAMIC_CONTEXT_REMINDER_KEY, DynamicContextMiddleware
+from harness.agents.middlewares.summarization_middleware import DeerFlowSummarizationMiddleware, SummarizationEvent
+from harness.config.memory_config import MemoryConfig
 
 
 def _messages() -> list:
@@ -68,7 +68,7 @@ def _skill_read_call(tool_id: str, skill: str) -> dict:
     return {
         "name": "read_file",
         "id": tool_id,
-        "args": {"path": f"/mnt/skills/public/{skill}/SKILL.md"},
+        "args": {"path": f"/mnt/skills/{skill}/SKILL.md"},
     }
 
 
@@ -135,7 +135,7 @@ def test_dynamic_context_reminder_is_preserved_across_summarization() -> None:
     assert emitted[2] is reminder
 
     followup_state = {"messages": [*emitted[1:], HumanMessage(content="Follow-up", id="msg-2")]}
-    with mock.patch("deerflow.agents.middlewares.dynamic_context_middleware.datetime") as mock_dt:
+    with mock.patch("harness.agents.middlewares.dynamic_context_middleware.datetime") as mock_dt:
         mock_dt.now.return_value.strftime.return_value = "2026-05-08, Friday"
         assert DynamicContextMiddleware().before_agent(followup_state, _runtime()) is None
 
@@ -189,8 +189,8 @@ async def test_abefore_model_calls_hooks_same_as_sync() -> None:
 
 def test_memory_flush_hook_skips_when_memory_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
     queue = MagicMock()
-    monkeypatch.setattr("deerflow.agents.memory.summarization_hook.get_memory_config", lambda: MemoryConfig(enabled=False))
-    monkeypatch.setattr("deerflow.agents.memory.summarization_hook.get_memory_queue", lambda: queue)
+    monkeypatch.setattr("harness.agents.memory.summarization_hook.get_memory_config", lambda: MemoryConfig(enabled=False))
+    monkeypatch.setattr("harness.agents.memory.summarization_hook.get_memory_queue", lambda: queue)
 
     memory_flush_hook(
         SummarizationEvent(
@@ -207,8 +207,8 @@ def test_memory_flush_hook_skips_when_memory_disabled(monkeypatch: pytest.Monkey
 
 def test_memory_flush_hook_skips_when_thread_id_missing(monkeypatch: pytest.MonkeyPatch) -> None:
     queue = MagicMock()
-    monkeypatch.setattr("deerflow.agents.memory.summarization_hook.get_memory_config", lambda: MemoryConfig(enabled=True))
-    monkeypatch.setattr("deerflow.agents.memory.summarization_hook.get_memory_queue", lambda: queue)
+    monkeypatch.setattr("harness.agents.memory.summarization_hook.get_memory_config", lambda: MemoryConfig(enabled=True))
+    monkeypatch.setattr("harness.agents.memory.summarization_hook.get_memory_queue", lambda: queue)
 
     memory_flush_hook(
         SummarizationEvent(
@@ -230,8 +230,8 @@ def test_memory_flush_hook_enqueues_filtered_messages_and_flushes(monkeypatch: p
         AIMessage(content="Calling tool", tool_calls=[{"name": "search", "id": "tool-1", "args": {}}]),
         AIMessage(content="Final answer"),
     ]
-    monkeypatch.setattr("deerflow.agents.memory.summarization_hook.get_memory_config", lambda: MemoryConfig(enabled=True))
-    monkeypatch.setattr("deerflow.agents.memory.summarization_hook.get_memory_queue", lambda: queue)
+    monkeypatch.setattr("harness.agents.memory.summarization_hook.get_memory_config", lambda: MemoryConfig(enabled=True))
+    monkeypatch.setattr("harness.agents.memory.summarization_hook.get_memory_queue", lambda: queue)
 
     memory_flush_hook(
         SummarizationEvent(
@@ -619,8 +619,8 @@ def test_skill_rescue_only_preserves_skill_calls_with_matched_tool_results() -> 
 
 def test_memory_flush_hook_preserves_agent_scoped_memory(monkeypatch: pytest.MonkeyPatch) -> None:
     queue = MagicMock()
-    monkeypatch.setattr("deerflow.agents.memory.summarization_hook.get_memory_config", lambda: MemoryConfig(enabled=True))
-    monkeypatch.setattr("deerflow.agents.memory.summarization_hook.get_memory_queue", lambda: queue)
+    monkeypatch.setattr("harness.agents.memory.summarization_hook.get_memory_config", lambda: MemoryConfig(enabled=True))
+    monkeypatch.setattr("harness.agents.memory.summarization_hook.get_memory_queue", lambda: queue)
 
     memory_flush_hook(
         SummarizationEvent(

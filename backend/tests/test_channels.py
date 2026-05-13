@@ -2326,7 +2326,7 @@ class TestChannelService:
             }
         )
 
-        with patch("deerflow.config.app_config.get_app_config", side_effect=AssertionError("should not read global config")):
+        with patch("harness.config.app_config.get_app_config", side_effect=AssertionError("should not read global config")):
             service = ChannelService.from_app_config(app_config)
 
         assert service._config == {"telegram": {"enabled": False}}

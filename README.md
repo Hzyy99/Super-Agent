@@ -11,7 +11,7 @@ repository-maintenance files that are not needed for local development.
 - `frontend/`: Next.js workspace UI.
 - `docker/`: Docker and compose-related runtime support.
 - `scripts/`: setup, config, doctor, and service scripts.
-- `skills/`: public and custom skills. This directory is intentionally kept.
+- `skills/`: built-in and custom skills. This directory is intentionally kept.
 - `config.example.yaml`: full application configuration template.
 
 ## Prerequisites

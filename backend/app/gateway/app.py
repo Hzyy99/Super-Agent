@@ -27,11 +27,11 @@ from app.gateway.routers import (
     threads,
     uploads,
 )
-from deerflow.config import app_config as deerflow_app_config
-from deerflow.config.app_config import apply_logging_level
+from harness.config import app_config as harness_app_config
+from harness.config.app_config import apply_logging_level
 
-AppConfig = deerflow_app_config.AppConfig
-get_app_config = deerflow_app_config.get_app_config
+AppConfig = harness_app_config.AppConfig
+get_app_config = harness_app_config.get_app_config
 
 # Default logging; lifespan overrides from config.yaml log_level.
 logging.basicConfig(
@@ -72,8 +72,8 @@ async def _ensure_admin_user(app: FastAPI) -> None:
     from sqlalchemy import select
 
     from app.gateway.deps import get_local_provider
-    from deerflow.persistence.engine import get_session_factory
-    from deerflow.persistence.user.model import UserRow
+    from harness.persistence.engine import get_session_factory
+    from harness.persistence.user.model import UserRow
 
     try:
         provider = get_local_provider()

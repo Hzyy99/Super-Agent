@@ -2,11 +2,11 @@
 
 import pytest
 
-from deerflow.persistence.thread_meta import ThreadMetaRepository
+from harness.persistence.thread_meta import ThreadMetaRepository
 
 
 async def _make_repo(tmp_path):
-    from deerflow.persistence.engine import get_session_factory, init_engine
+    from harness.persistence.engine import get_session_factory, init_engine
 
     url = f"sqlite+aiosqlite:///{tmp_path / 'test.db'}"
     await init_engine("sqlite", url=url, sqlite_dir=str(tmp_path))
@@ -14,7 +14,7 @@ async def _make_repo(tmp_path):
 
 
 async def _cleanup():
-    from deerflow.persistence.engine import close_engine
+    from harness.persistence.engine import close_engine
 
     await close_engine()
 

@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 from langchain_core.messages import AIMessage
 
-from deerflow.agents.middlewares.token_usage_middleware import (
+from harness.agents.middlewares.token_usage_middleware import (
     TOKEN_USAGE_ATTRIBUTION_KEY,
     TokenUsageMiddleware,
 )
@@ -40,7 +40,7 @@ class TestTokenUsageMiddleware:
 
         with caplog.at_level(
             logging.INFO,
-            logger="deerflow.agents.middlewares.token_usage_middleware",
+            logger="harness.agents.middlewares.token_usage_middleware",
         ):
             result = middleware.after_model({"messages": [message]}, _make_runtime())
 
@@ -63,7 +63,7 @@ class TestTokenUsageMiddleware:
 
         with caplog.at_level(
             logging.INFO,
-            logger="deerflow.agents.middlewares.token_usage_middleware",
+            logger="harness.agents.middlewares.token_usage_middleware",
         ):
             result = middleware.after_model({"messages": [message]}, _make_runtime())
 
@@ -87,7 +87,7 @@ class TestTokenUsageMiddleware:
 
         with caplog.at_level(
             logging.INFO,
-            logger="deerflow.agents.middlewares.token_usage_middleware",
+            logger="harness.agents.middlewares.token_usage_middleware",
         ):
             result = middleware.after_model({"messages": [message]}, _make_runtime())
 

@@ -3,8 +3,8 @@
 from pathlib import Path
 from types import SimpleNamespace
 
-from deerflow.config.skills_config import SkillsConfig
-from deerflow.skills.storage import get_or_new_skill_storage
+from harness.config.skills_config import SkillsConfig
+from harness.skills.storage import get_or_new_skill_storage
 
 
 def _write_skill(skill_dir: Path, name: str, description: str) -> None:
@@ -40,8 +40,8 @@ def test_load_skills_discovers_nested_skills_and_sets_container_paths(tmp_path: 
     """Nested skills should be discovered recursively with correct container paths."""
     skills_root = tmp_path / "skills"
 
-    _write_skill(skills_root / "public" / "root-skill", "root-skill", "Root skill")
-    _write_skill(skills_root / "public" / "parent" / "child-skill", "child-skill", "Child skill")
+    _write_skill(skills_root / "root-skill", "root-skill", "Root skill")
+    _write_skill(skills_root / "parent" / "child-skill", "child-skill", "Child skill")
     _write_skill(skills_root / "custom" / "team" / "helper", "team-helper", "Team helper")
 
     skills = get_or_new_skill_storage(skills_path=skills_root).load_skills(enabled_only=False)
@@ -54,10 +54,10 @@ def test_load_skills_discovers_nested_skills_and_sets_container_paths(tmp_path: 
     team_skill = by_name["team-helper"]
 
     assert root_skill.skill_path == "root-skill"
-    assert root_skill.get_container_file_path() == "/mnt/skills/public/root-skill/SKILL.md"
+    assert root_skill.get_container_file_path() == "/mnt/skills/root-skill/SKILL.md"
 
     assert child_skill.skill_path == "parent/child-skill"
-    assert child_skill.get_container_file_path() == "/mnt/skills/public/parent/child-skill/SKILL.md"
+    assert child_skill.get_container_file_path() == "/mnt/skills/parent/child-skill/SKILL.md"
 
     assert team_skill.skill_path == "team/helper"
     assert team_skill.get_container_file_path() == "/mnt/skills/custom/team/helper/SKILL.md"
@@ -67,9 +67,9 @@ def test_load_skills_skips_hidden_directories(tmp_path: Path):
     """Hidden directories should be excluded from recursive discovery."""
     skills_root = tmp_path / "skills"
 
-    _write_skill(skills_root / "public" / "visible" / "ok-skill", "ok-skill", "Visible skill")
+    _write_skill(skills_root / "visible" / "ok-skill", "ok-skill", "Visible skill")
     _write_skill(
-        skills_root / "public" / "visible" / ".hidden" / "secret-skill",
+        skills_root / "visible" / ".hidden" / "secret-skill",
         "secret-skill",
         "Hidden skill",
     )
@@ -83,7 +83,7 @@ def test_load_skills_skips_hidden_directories(tmp_path: Path):
 
 def test_load_skills_prefers_custom_over_public_with_same_name(tmp_path: Path):
     skills_root = tmp_path / "skills"
-    _write_skill(skills_root / "public" / "shared-skill", "shared-skill", "Public version")
+    _write_skill(skills_root / "shared-skill", "shared-skill", "Public version")
     _write_skill(skills_root / "custom" / "shared-skill", "shared-skill", "Custom version")
 
     skills = get_or_new_skill_storage(skills_path=skills_root).load_skills(enabled_only=False)
